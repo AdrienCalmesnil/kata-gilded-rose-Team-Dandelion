@@ -16,7 +16,7 @@ class Shop {
   */
 
   // changeQuality(id, changeValue) {
-  //   if (this.items[id].quality > 0 && this.items[id].quality < 50) {
+  //   if (this.items[id].quality < 50) {
   //     this.items[id].quality = this.items[id].quality + changeValue;
   //   }
   // }
@@ -31,7 +31,12 @@ class Shop {
   //         this.items[i].quality = this.items[i].quality + 2;
   //         break;
   //       case "Backstage passes to a TAFKAL80ETC concert":
-  //         this.items[i].quality = this.items[i].quality + 2;
+  //         if (this.items[i].sellIn < 11) {
+  //           this.changeQuality(i, 1)
+  //         }
+  //         if (this.items[i].sellIn < 6) {
+  //           this.changeQuality(i, 1)
+  //         }
   //         break;
   //       default:
   //         this.items[i].quality = this.items[i].quality - 1;
@@ -62,6 +67,9 @@ class Shop {
   qualityIsBelow50(item) {
     return item.quality < 50;
   }
+  isBackstagePasses(item) {
+    return item.name == "Backstage passes to a TAFKAL80ETC concert";
+  }
 
   updateQuality() {
     this.items.forEach((item) => {
@@ -72,7 +80,7 @@ class Shop {
       } else {
         if (this.qualityIsBelow50(item)) {
           item.quality = item.quality + 1;
-          if (item.name == "Backstage passes to a TAFKAL80ETC concert") {
+          if (this.isBackstagePasses(item)) {
             if (item.sellIn < 11) {
               if (this.qualityIsBelow50(item)) {
                 item.quality = item.quality + 1;
