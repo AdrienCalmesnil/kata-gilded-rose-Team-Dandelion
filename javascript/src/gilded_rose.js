@@ -21,17 +21,18 @@ class Shop {
   //   }
   // }
 
-  // checkItem() {
+  // updateQuality2() {
   //   for (var i = 0; i < this.items.length; i++) {
   //     switch (this.items[i].name) {
   //       case "Sulfuras, Hand of Ragnaros":
   //         console.log("This is a legendary Item ! Don't touch !");
   //         break;
   //       case "Aged Brie":
-  //         this.items[i].quality = this.items[i].quality - 2;
-
-  //       case "Backstage passes to a TAFKAL80ETC concert" :
-
+  //         this.items[i].quality = this.items[i].quality + 2;
+  //         break;
+  //       case "Backstage passes to a TAFKAL80ETC concert":
+  //         this.items[i].quality = this.items[i].quality + 2;
+  //         break;
   //       default:
   //         this.items[i].quality = this.items[i].quality - 1;
   //     }
@@ -52,25 +53,33 @@ class Shop {
     return item.quality > 0;
   }
 
+  isSulfuras(item) {
+    if (item.name != "Sulfuras, Hand of Ragnaros") {
+      item.quality = item.quality - 1;
+    }
+  }
+
+  qualityIsBelow50(item) {
+    return item.quality < 50;
+  }
+
   updateQuality() {
     this.items.forEach((item) => {
       if (this.isQualityIncrease(item)) {
         if (this.qualityPositive(item)) {
-          if (item.name != "Sulfuras, Hand of Ragnaros") {
-            item.quality = item.quality - 1;
-          }
+          this.isSulfuras(item);
         }
       } else {
-        if (item.quality < 50) {
+        if (this.qualityIsBelow50(item)) {
           item.quality = item.quality + 1;
           if (item.name == "Backstage passes to a TAFKAL80ETC concert") {
             if (item.sellIn < 11) {
-              if (item.quality < 50) {
+              if (this.qualityIsBelow50(item)) {
                 item.quality = item.quality + 1;
               }
             }
             if (item.sellIn < 6) {
-              if (item.quality < 50) {
+              if (this.qualityIsBelow50(item)) {
                 item.quality = item.quality + 1;
               }
             }
@@ -92,7 +101,7 @@ class Shop {
             item.quality = item.quality - item.quality;
           }
         } else {
-          if (item.quality < 50) {
+          if (this.qualityIsBelow50(item)) {
             item.quality = item.quality + 1;
           }
         }
