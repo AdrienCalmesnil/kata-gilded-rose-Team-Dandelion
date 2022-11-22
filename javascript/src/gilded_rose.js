@@ -59,9 +59,7 @@ class Shop {
   }
 
   isSulfuras(item) {
-    if (item.name != "Sulfuras, Hand of Ragnaros") {
-      item.quality = item.quality - 1;
-    }
+    return item.name != "Sulfuras, Hand of Ragnaros";
   }
 
   qualityIsBelow50(item) {
@@ -75,7 +73,9 @@ class Shop {
     this.items.forEach((item) => {
       if (this.isQualityIncrease(item)) {
         if (this.qualityPositive(item)) {
-          this.isSulfuras(item);
+          if (this.isSulfuras(item)) {
+            item.quality = item.quality - 1;
+          }
         }
       } else {
         if (this.qualityIsBelow50(item)) {
@@ -94,7 +94,7 @@ class Shop {
           }
         }
       }
-      if (item.name != "Sulfuras, Hand of Ragnaros") {
+      if (this.isSulfuras(item)) {
         item.sellIn = item.sellIn - 1;
       }
       if (item.sellIn < 0) {
